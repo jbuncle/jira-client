@@ -1,0 +1,16 @@
+{
+    "name": "jbuncle/jira-client",
+    "description": "Library for interacting with Jira API.",
+    "authors": [
+        {
+            "name": "James Buncle",
+            "email": "jbuncle@hotmail.co.uk"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "JiraClient\\": "src"
+        }
+    }
+}
