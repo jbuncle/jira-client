@@ -7,10 +7,9 @@
             "email": "jbuncle@hotmail.co.uk"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
-            "JiraClient\\": "src"
+            "JBuncle\\JiraClient\\": "src"
         }
     }
 }

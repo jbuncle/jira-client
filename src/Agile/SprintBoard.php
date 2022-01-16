@@ -3,9 +3,9 @@
 namespace JBuncle\JiraClient\Agile;
 
 /**
- * SprintReportIssue.
+ * Board.
  */
-class SprintReportIssue {
+class SprintBoard {
 
     private array $json;
 
@@ -17,8 +17,12 @@ class SprintReportIssue {
         return $this->json['id'];
     }
 
-    public function getKey() {
-        return $this->json['key'];
+    public function getName() {
+        return $this->json['name'];
+    }
+
+    public function getType() {
+        return $this->json['type'];
     }
 
 }
