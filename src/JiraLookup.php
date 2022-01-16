@@ -12,6 +12,10 @@ class JiraLookup {
     private array $customFields;
 
     private const FIELDS = [
+        'id',
+        'key',
+        'labels',
+        'issuelinks',
         'created',
         'updated',
         'attachment',

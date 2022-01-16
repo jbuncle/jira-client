@@ -47,6 +47,13 @@ class JiraIssue {
         return $this->json['fields']['assignee']['name'];
     }
 
+    public function getChangelog(): array {
+        if ($this->json['changelog']['total'] != $this->json['changelog']['maxResults']) {
+            fwrite(STDERR, "Changelog incomplete\n");
+        }
+        return $this->json['changelog']['histories'];
+    }
+    
     public function getEpic() {
         return $this->json['fields']['customfield_11100'];
     }
@@ -67,12 +74,45 @@ class JiraIssue {
         return $this->json['fields']['description'];
     }
 
+    public function getLabels(): array {
+        return $this->json['fields']['labels'];
+    }
+
     public function getEpicKey() {
         return $this->json['fields']['customfield_10800'];
     }
 
-    public function getType() {
+    public function getIssueType(): string {
         return $this->json['fields']['issuetype']['name'];
+    }
+
+    public function getIssueLinks(): ?array {
+        if (!isset($this->json['fields']['issuelinks'])) {
+            return null;
+        }
+        return array_map(function (array $issueLink) {
+            if (isset($issueLink['outwardIssue'])) {
+                return [
+                    'type' => $issueLink['type']['name'],
+                    'description' => $issueLink['type']['outward'],
+                    'issue' => [
+                        'key' => $issueLink['outwardIssue']['key'],
+                        'title' => $issueLink['outwardIssue']['fields']['summary'],
+                        'type' => $issueLink['outwardIssue']['fields']['issuetype']['name'],
+                    ],
+                ];
+            } else {
+                return [
+                    'type' => $issueLink['type']['name'],
+                    'description' => $issueLink['type']['inward'],
+                    'issue' => [
+                        'key' => $issueLink['inwardIssue']['key'],
+                        'title' => $issueLink['inwardIssue']['fields']['summary'],
+                        'type' => $issueLink['inwardIssue']['fields']['issuetype']['name'],
+                    ],
+                ];
+            }
+        }, $this->json['fields']['issuelinks']);
     }
 
     public function isSubtask(): bool {
@@ -117,6 +157,14 @@ class JiraIssue {
             $keys[] = $subtask->key;
         }
         return $keys;
+    }
+
+    public function getField(string $fieldName): ?array {
+        if (isset($this->json['fields'][$fieldName])) {
+            return $this->json['fields'][$fieldName];
+        }
+
+        return null;
     }
 
 }
