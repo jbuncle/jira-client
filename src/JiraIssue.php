@@ -53,7 +53,7 @@ class JiraIssue {
         }
         return $this->json['changelog']['histories'];
     }
-    
+
     public function getEpic() {
         return $this->json['fields']['customfield_11100'];
     }
@@ -84,6 +84,10 @@ class JiraIssue {
 
     public function getIssueType(): string {
         return $this->json['fields']['issuetype']['name'];
+    }
+
+    public function getResolution(): string {
+        return $this->json['fields']['resolution']['name'];
     }
 
     public function getIssueLinks(): ?array {

@@ -20,6 +20,7 @@ class JiraLookup {
         'updated',
         'attachment',
         'worklog',
+        'resolution',
         'status',
         'schema',
         'names',
